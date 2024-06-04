@@ -1,96 +1,135 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common'; 
-
-export interface CovidData {
-  totalCases: number;
-  totalDeaths: number;
-  totalRecovered: number;
-}
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
-  registerForm!: FormGroup;
+export class RegisterComponent {
+  constructor(private router: Router) {}
 
-  constructor(private formBuilder: FormBuilder, 
-              private router: Router,
-              private location: Location) { } 
+  title = 'register';
+  first: string = '';
+  last: string = '';
+  age: string = '';
+  gender: string = '';
+  email: string = '';
+  phone: string = '';
+  pass: string = '';
+  confirm_pass: string = '';
+  errormessage: string = ''; // Added the errormessage property
+  errorFields: string[] = [];
+  submitted: boolean = false; // Added the submitted property
 
-  ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      age: ['', [Validators.required, Validators.pattern(/^\d+$/), Validators.maxLength(3)]],
-      phone: ['', [Validators.required, Validators.pattern(/^\d+$/), Validators.maxLength(10)]],
-      gender: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required]
-    }, { validators: this.passwordMatchValidator });
+  numberOnly(event: any, type: string) {
+    const value = event.target.value;
 
-    console.log('Register component initialized');
-  }
+    // Allow Backspace, Delete, Tab, and Arrow keys
+    if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+      return;
+    }
 
-  passwordMatchValidator(group: FormGroup) {
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirmPassword')?.value;
-  
-    return password === confirmPassword ? null : { mismatch: true };
-  }
+    // Prevent non-numeric input
+    if (!['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(event.key)) {
+      event.preventDefault();
+    }
 
-  onSubmit() {
-    this.markFormGroupTouched(this.registerForm);
-    
-    if (this.registerForm.valid) {
-      console.log('Form Submitted!', this.registerForm.value);
-    
-      const existingEmails = localStorage.getItem('emails');
-      const existingPasswords = localStorage.getItem('passwords');
-      
-      const emailsArray = existingEmails ? existingEmails.split(',') : [];
-      const passwordsArray = existingPasswords ? existingPasswords.split(',') : [];
-      
-      const email = this.registerForm.get('email')?.value;
-      const password = this.registerForm.get('password')?.value;
-      
-      if (!emailsArray.includes(email)) {
-        emailsArray.push(email);
-        localStorage.setItem('emails', emailsArray.join(','));
-      }
-      if (!passwordsArray.includes(password)) {
-        passwordsArray.push(password);
-        localStorage.setItem('passwords', passwordsArray.join(','));
-      }
-      
-      this.router.navigate(['/login']);
-    } else {
-      console.log('Form is invalid!');
+    // Check length for age and phone fields
+    if (type === 'age' && value.length >= 3) {
+      event.preventDefault();
+    }
+    if (type === 'phone' && value.length >= 10) {
+      event.preventDefault();
     }
   }
-  
-  
-  
 
-  onCancel() {
-    this.registerForm.reset();
-  }
+  adduser() {
+    this.submitted = true;
+    this.errorFields = [];
 
-  onBack() {
-    this.location.back(); 
-  }
+    // Validate form fields
+    if (this.pass === '' || this.confirm_pass === '' || this.email === '' || this.phone === '' || this.age === '' || this.last === '' || this.first === '' || this.gender === '') {
+      if (this.pass === '') this.errorFields.push('Password');
+      if (this.confirm_pass === '') this.errorFields.push('Confirm Password');
+      if (this.email === '') this.errorFields.push('Email');
+      if (this.phone === '' || this.phone.length !== 10) this.errorFields.push('Phone');
+      if (this.age === '') this.errorFields.push('Age');
+      if (this.last === '') this.errorFields.push('Lastname');
+      if (this.first === '') this.errorFields.push('Firstname');
+      if (this.gender === '') this.errorFields.push('Gender');
+    }
 
-  markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach(control => {
-      control.markAsTouched();
+    if (this.errorFields.length > 0) {
+      this.errorFields.forEach(field => {
+        const inputField = document.getElementById(field.toLowerCase()) as HTMLInputElement;
+        if (inputField) {
+          inputField.classList.add('error-border');
+        }
+      });
+      return;
+    }
 
-      if (control instanceof FormGroup) {
-        this.markFormGroupTouched(control);
+    // Validate email format
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(this.email)) {
+      alert('Invalid email format');
+      return;
+    }
+
+    // Validate password match
+    if (this.pass !== this.confirm_pass) {
+      alert('Passwords do not match');
+      this.pass = '';
+      this.confirm_pass = '';
+      const passInput = document.getElementById('password') as HTMLInputElement;
+      if (passInput) {
+        passInput.focus();
+      }
+      return;
+    }
+
+    // Validate password length
+    if (this.pass.length < 8) {
+      alert('Password length must be at least 8 characters');
+      return;
+    }
+
+    console.log('Firstname : ', this.first);
+    console.log('Lastname : ', this.last);
+    console.log('Age : ', this.age);
+    console.log('Gender : ', this.gender);
+    console.log('Email : ', this.email);
+    console.log('Phone : ', this.phone);
+    console.log('Pass : ', this.pass);
+    console.log('Confirm pass : ', this.confirm_pass);
+
+    this.router.navigate(['/home'], {
+      state: {
+        first: this.first,
+        last: this.last,
+        age: this.age,
+        gender: this.gender,
+        email: this.email,
+        phone: this.phone
       }
     });
+  }
+
+  clearForm() {
+    this.first = '';
+    this.last = '';
+    this.age = '';
+    this.gender = '';
+    this.email = '';
+    this.phone = '';
+    this.pass = '';
+    this.confirm_pass = '';
+    this.errorFields = [];
+    this.submitted = false;
+  }
+
+  goBack() {
+    this.router.navigate(['/login']);
   }
 }

@@ -21,7 +21,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { AdminComponent } from './admin/admin.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

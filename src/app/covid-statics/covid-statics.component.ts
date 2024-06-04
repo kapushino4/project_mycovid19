@@ -11,6 +11,7 @@ import { UseMocksService } from '../use-mocks.service';
 export class CovidStaticsComponent implements OnInit {
   covidData: CountryCovidData[] = [];
   loading: boolean = true;
+searchQuery: any;
 
   constructor(
     private datasService: DataStaticsService,
@@ -44,4 +45,14 @@ export class CovidStaticsComponent implements OnInit {
       }
     );
   }
+  filterData() {
+    if (!this.searchQuery) {
+      return this.covidData; // No search term, return all data
+    }
+
+    return this.covidData.filter(data =>
+      data.Country_text.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
 }
+
