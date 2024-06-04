@@ -1,0 +1,116 @@
+/* Input and Select styles */
+.input,
+.select {
+  width: calc(100% - 10px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Container styles */
+.container {
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTydhepSonV_5Ag423_x4zt89y6S_U9YaFHgw&usqp=CAU');
+  background-size: cover;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #000;
+  width: 600px;
+  margin: auto;
+  margin-top: 80px;
+}
+
+/* Button container styles */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Button styles */
+button {
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button[type="submit"] {
+  background-color: #0c843e;
+}
+
+button[type="button"] {
+  background-color: #f44336;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+}
+
+/* Flexbox layout for rows and columns */
+.row {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.col {
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* Heading styles */
+.h1 {
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 125px;
+}
+
+/* Logo styles */
+.logo {
+  width: 100px;
+  height: auto;
+  justify-self: center;
+}
+
+@media only screen and (max-width: 480px) {
+  .login-container {
+    width: 100%;
+    height: 20px;
+  }
+}
+
+/* Container and Item Styles */
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+.flex-item.top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px; /* Adjust margin to position nicely within the container */
+}

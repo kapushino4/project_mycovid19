@@ -1,0 +1,33 @@
+<app-nav-bar></app-nav-bar>
+<div class="container" *ngIf="!loading">
+  <h1>Global COVID-19 Data</h1>
+  <div class="content">
+    <table>
+      <thead>
+        <tr>
+          <th>Country</th>
+          <th>Total Cases</th>
+          <th>Active Cases</th>
+          <th>New Cases</th>
+          <th>Total Deaths</th>
+          <th>Total Recovered</th>
+          <th>Last Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of covidData">
+          <td>{{ data.Country_text }}</td>
+          <td>{{ data["Total Cases_text"] }}</td>
+          <td>{{ data["Active Cases_text"] }}</td>
+          <td>{{ data["New Cases_text"] }}</td>
+          <td>{{ data["Total Deaths_text"] }}</td>
+          <td>{{ data["Total Recovered_text"] }}</td>
+          <td>{{ data["Last Update"] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div *ngIf="loading">
+  <p>Loading data, please wait...</p>
+</div>

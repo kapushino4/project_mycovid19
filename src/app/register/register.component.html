@@ -1,0 +1,88 @@
+<div class="register-container container">
+  <h2 class="h1">Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col">
+        <label for="firstname">First Name:</label>
+        <input id="firstname" formControlName="firstname" class="input" type="text" />
+        <div *ngIf="registerForm.get('firstname')?.invalid && registerForm.get('firstname')?.touched">
+          <small *ngIf="registerForm.get('firstname')?.errors?.['required']">First name is required.</small>
+        </div>
+      </div>
+      <div class="col">
+        <label for="lastname">Last Name:</label>
+        <input id="lastname" formControlName="lastname" class="input" type="text" />
+        <div *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched">
+          <small *ngIf="registerForm.get('lastname')?.errors?.['required']">Last name is required.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label for="age">Age:</label>
+        <input id="age" formControlName="age" class="input" type="text" />
+        <div *ngIf="registerForm.get('age')?.invalid && registerForm.get('age')?.touched">
+          <small *ngIf="registerForm.get('age')?.errors?.['required']">Age is required.</small>
+          <small *ngIf="registerForm.get('age')?.errors?.['pattern']">Age must be a number.</small>
+          <small *ngIf="registerForm.get('age')?.errors?.['maxlength']">Age must be less than 3 digits.</small>
+        </div>
+      </div>
+      <div class="col">
+        <label for="phone">Phone:</label>
+        <input id="phone" formControlName="phone" class="input" type="text" />
+        <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+          <small *ngIf="registerForm.get('phone')?.errors?.['required']">Phone number is required.</small>
+          <small *ngIf="registerForm.get('phone')?.errors?.['pattern']">Phone number must be a number.</small>
+          <small *ngIf="registerForm.get('phone')?.errors?.['maxlength']">Phone number must be less than 10 digits.</small>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="gender">Gender:</label>
+      <select id="gender" formControlName="gender" class="select">
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <div *ngIf="registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched">
+        <small *ngIf="registerForm.get('gender')?.errors?.['required']">Gender is required.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" class="input" type="email" />
+      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
+        <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label for="password">Password:</label>
+        <input id="password" formControlName="password" class="input" type="password" />
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
+          <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</small>
+        </div>
+      </div>
+      <div class="col">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input id="confirmPassword" formControlName="confirmPassword" class="input" type="password" />
+        <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+          <small *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirm password is required.</small>
+          <small *ngIf="registerForm.hasError('mismatch')">Passwords do not match.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button type="submit" [disabled]="registerForm.invalid">Register</button>
+      <button type="button" (click)="onCancel()">Cancel</button>
+      <button type="button" (click)="onBack()">Back</button>
+    </div>
+  </form>
+</div>

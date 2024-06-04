@@ -1,0 +1,70 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('https://www.synphaet.co.th/wp-content/uploads/2023/04/coronavirus-outbreak-pathogen-affecting-respiratory-tract-covid-19-infection-concept-pandemic-viral-infection-coronavirus-inside-human-viral-infection-3d-illustration-scaled.jpg');
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTydhepSonV_5Ag423_x4zt89y6S_U9YaFHgw&usqp=CAU');
+  background-size: cover;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 700px;
+  max-width: 90%; /* Adjust for mobile */
+  height: 350px;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+.logo {
+  max-width: 50%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  text-align: center;
+}
+
+a,
+button {
+  background-color: #0c843e;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+@media only screen and (max-width: 480px) {
+  .login-container {
+    width: 100%;
+    height: 20px;
+  }
+}

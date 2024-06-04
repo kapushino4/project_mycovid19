@@ -1,0 +1,25 @@
+<app-nav-bar></app-nav-bar>
+<div *ngIf="covidNews.length > 0" class="covid-news-container">
+  <div *ngFor="let article of covidNews" class="covid-news-item">
+    <h3 class="news-title">{{ article.title }}</h3>
+    <p class="news-description">{{ article.description }}</p>
+    <p class="news-summary">{{ article.summary }}</p>
+    <div *ngIf="article.media_content && article.media_content.length > 0" class="news-media-content">
+      <div *ngFor="let media of article.media_content" class="news-image">
+        <a [href]="article.link" target="_blank">
+          <img [src]="media" alt="COVID-19 News Image" width="200">
+        </a>
+      </div>
+    </div>
+    <p class="news-source">Source: {{ article.clean_url }}</p>
+    <p class="news-date">Date: {{ article.published_date }}</p>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  <p>Loading...</p>
+</div>
+
+<div *ngIf="error" class="error">
+  <p>An error occurred while fetching COVID-19 news.</p>
+</div>
