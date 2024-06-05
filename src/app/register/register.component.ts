@@ -18,24 +18,21 @@ export class RegisterComponent {
   phone: string = '';
   pass: string = '';
   confirm_pass: string = '';
-  errormessage: string = ''; // Added the errormessage property
+  errormessage: string = ''; 
   errorFields: string[] = [];
-  submitted: boolean = false; // Added the submitted property
+  submitted: boolean = false; 
 
   numberOnly(event: any, type: string) {
     const value = event.target.value;
 
-    // Allow Backspace, Delete, Tab, and Arrow keys
     if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
       return;
     }
 
-    // Prevent non-numeric input
     if (!['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(event.key)) {
       event.preventDefault();
     }
 
-    // Check length for age and phone fields
     if (type === 'age' && value.length >= 3) {
       event.preventDefault();
     }
@@ -48,7 +45,6 @@ export class RegisterComponent {
     this.submitted = true;
     this.errorFields = [];
 
-    // Validate form fields
     if (this.pass === '' || this.confirm_pass === '' || this.email === '' || this.phone === '' || this.age === '' || this.last === '' || this.first === '' || this.gender === '') {
       if (this.pass === '') this.errorFields.push('Password');
       if (this.confirm_pass === '') this.errorFields.push('Confirm Password');

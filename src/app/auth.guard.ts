@@ -8,16 +8,15 @@ export class AuthGuard implements CanActivate {
 
   constructor(private router: Router) {}
 
-
-  // จะทำการตรวจสอบว่ามีข้อมูล username และ password อยู่ใน localStorage หรือไม่
   canActivate(): boolean {
-    //typeof localStorage !== 'undefined' ใช้ตรวจสอบว่า localStorage มีอยู่หรือไม่
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('username') && localStorage.getItem('password')) {
+    const validEmail = 'frankdeesom98@gmail.com'; // อีเมลที่ถูกต้อง
+
+    // ตรวจสอบว่า localStorage มีข้อมูล username และ password อยู่หรือไม่ และตรวจสอบว่า username เป็นอีเมลที่ถูกต้องหรือไม่
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('email') === validEmail && localStorage.getItem('password')) {
       return true; // อนุญาตให้เข้าถึงหน้า
     } else {
-      this.router.navigate(['/']); // ถ้าไม่มีการล็อกอิน ให้ redirect ไปที่หน้า Log
+      this.router.navigate(['/']); // ส่งกลับไปหน้าหลัก
       return false; // ไม่อนุญาตให้เข้าถึงหน้า
     }
   }
-
 }

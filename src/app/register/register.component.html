@@ -1,62 +1,88 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<body>
-  <i class="fas fa-times back-icon" (click)="goBack()"></i>
-  <div class="container">
-    <h1 class="title">Registration Form</h1>
-    <div class="form-grid">
-      <div class="input-group" [ngClass]="{'error-input': submitted && errorFields.includes('Firstname')}">
-        <label for="first">Firstname:</label>
-        <input type="text" id="first" name="first" [(ngModel)]="first"   class="lt">
-        <div *ngIf="submitted && errorFields.includes('Firstname')" class="error-message">Please enter your firstname</div>
-    </div>
-      <div class="input-group">
-        <label for="last">Lastname:</label>
-        <input type="text" id="last" name="last" [(ngModel)]="last" class="lt">
-        <div *ngIf="submitted && !last" class="error-message">Please enter your lastname</div>
-    </div>
-    <div class="input-group" [ngClass]="{'error-input': submitted && !age}">
-      <label for="age">Age:</label>
-      <input type="text" id="age" [(ngModel)]="age" (keydown)="numberOnly($event, 'age')" name="age"  class="lt">
-      <div *ngIf="submitted && !age" class="error-message">Please enter your age</div>
-  </div>
-
-      <div class="input-group" [ngClass]="{'error-input': submitted && !gender}">
-        <label for="gender">Gender:</label>
-        <select id="gender" [(ngModel)]="gender" class="gender"  class="lt">
-            <option value="">Select gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="LGBTQ+">LGBTQ+</option>
-        </select>
-        <!-- เพิ่มเงื่อนไขใหม่ใน *ngIf เพื่อแสดงข้อความเมื่อไม่ได้เลือกเพศ -->
-        <div *ngIf="submitted && !gender" class="error-message">Please select gender</div>
-    </div>
-          <div class="input-email input-group" [ngClass]="{'error-input': submitted && !email}" >
-            <label for="email">Email:</label>
-            <input type="email" id="email" [(ngModel)]="email" class="email">
-            <div *ngIf="submitted && !email" class="error-message">Please enter your email</div>
+<div class="register-container container">
+  <h2 class="h1">Register</h2>
+  <form #registerForm="ngForm" (ngSubmit)="adduser()">
+    <div class="row">
+      <div class="col">
+        <label for="firstname">First Name:</label>
+        <input id="firstname" name="firstname" [(ngModel)]="first" #firstName="ngModel" required class="input" type="text" />
+        <div *ngIf="firstName.invalid && firstName.touched">
+          <small *ngIf="firstName.errors?.['required']">First name is required.</small>
         </div>
-        <div class="input-phone input-group" [ngClass]="{'error-input': submitted && !phone}">
-          <label for="phone">Phone:</label>
-          <input type="text" id="phone" [(ngModel)]="phone" (keydown)="numberOnly($event, 'phone')" name="phone"  class="phone">
-          <div *ngIf="submitted && !phone" class="error-message">Please enter your phone</div>
       </div>
-          <div class="input-password input-group">
-            <label for="pass">Password:</label>
-            <input type="password" id="pass" [(ngModel)]="pass" class="pass">
-            <div *ngIf="submitted && (!pass || pass.length < 8)" class="error-message">Password must be at least 8 characters</div>
-          </div>
-          <div class="input-confirmpassword input-group">
-            <label for="confirm_pass">Confirm Password:</label>
-            <input type="password" id="confirm_pass" [(ngModel)]="confirm_pass" name="confirm_pass" class="confirm_pass">
-            <div *ngIf="submitted && (!confirm_pass || confirm_pass.length < 8)" class="error-message">Please enter the code correctly.</div>
-          </div>
-
-      <p class="error-message">{{errormessage}}</p>
-      <div class="button-container">
-        <button type="submit" (click)="adduser()">register</button>
-        <button type="button" (click)="clearForm()">Cancel</button>
+      <div class="col">
+        <label for="lastname">Last Name:</label>
+        <input id="lastname" name="lastname" [(ngModel)]="last" #lastName="ngModel" required class="input" type="text" />
+        <div *ngIf="lastName.invalid && lastName.touched">
+          <small *ngIf="lastName.errors?.['required']">Last name is required.</small>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+
+    <div class="row">
+      <div class="col">
+        <label for="age">Age:</label>
+        <input id="age" name="age" [(ngModel)]="age" #ageField="ngModel" required pattern="^[0-9]+$" maxlength="3" class="input" type="text" (keydown)="numberOnly($event, 'age')" />
+        <div *ngIf="ageField.invalid && ageField.touched">
+          <small *ngIf="ageField.errors?.['required']">Age is required.</small>
+          <small *ngIf="ageField.errors?.['pattern']">Age must be a number.</small>
+          <small *ngIf="ageField.errors?.['maxlength']">Age must be less than 3 digits.</small>
+        </div>
+      </div>
+      <div class="col">
+        <label for="phone">Phone:</label>
+        <input id="phone" name="phone" [(ngModel)]="phone" #phoneField="ngModel" required pattern="^[0-9]+$" maxlength="10" class="input" type="text" (keydown)="numberOnly($event, 'phone')" />
+        <div *ngIf="phoneField.invalid && phoneField.touched">
+          <small *ngIf="phoneField.errors?.['required']">Phone number is required.</small>
+          <small *ngIf="phoneField.errors?.['pattern']">Phone number must be a number.</small>
+          <small *ngIf="phoneField.errors?.['maxlength']">Phone number must be less than 10 digits.</small>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender" [(ngModel)]="gender" #genderField="ngModel" required class="select">
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <div *ngIf="genderField.invalid && genderField.touched">
+        <small *ngIf="genderField.errors?.['required']">Gender is required.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" name="email" [(ngModel)]="email" #emailField="ngModel" required email class="input" type="email" />
+      <div *ngIf="emailField.invalid && emailField.touched">
+        <small *ngIf="emailField.errors?.['required']">Email is required.</small>
+        <small *ngIf="emailField.errors?.['email']">Invalid email format.</small>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label for="password">Password:</label>
+        <input id="password" name="password" [(ngModel)]="pass" #passwordField="ngModel" required minlength="8" class="input" type="password" />
+        <div *ngIf="passwordField.invalid && passwordField.touched">
+          <small *ngIf="passwordField.errors?.['required']">Password is required.</small>
+          <small *ngIf="passwordField.errors?.['minlength']">Password must be at least 8 characters long.</small>
+        </div>
+      </div>
+      <div class="col">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input id="confirmPassword" name="confirmPassword" [(ngModel)]="confirm_pass" #confirmPasswordField="ngModel" required [compare]="pass" class="input" type="password" />
+        <div *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched">
+          <small *ngIf="confirmPasswordField.errors?.['required']">Confirm password is required.</small>
+          <small *ngIf="confirmPasswordField.errors?.['compare']">Passwords do not match.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button type="submit" [disabled]="registerForm.invalid">Register</button>
+      <button type="button" (click)="clearForm()">Cancel</button>
+      <button type="button" (click)="goBack()">Back</button>
+    </div>
+  </form>
+</div>
